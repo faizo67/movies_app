@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/presentation/bloc/movies/popular_movies/popular_movies_bloc.dart';
@@ -107,22 +108,29 @@ class HomeScreen extends StatelessWidget {
         if (state is PopularMoviesLoading) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is PopularMoviesLoad && state.movies.isNotEmpty) {
-          final posterPath = state.movies.first.posterPath;
-          return Container(
-            height: 250.h,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20.r),
-                bottomRight: Radius.circular(20.r),
-              ),
-              image: DecorationImage(
-                image: NetworkImage(
-                  'https://image.tmdb.org/t/p/w500/$posterPath',
+          // final posterPath = state.movies.first.posterPath;
+          return CarouselSlider.builder(
+            itemCount: state.movies.length,
+            itemBuilder: (context, index, realIndex) {
+              final movies = state.movies[index];
+              return Container(
+                height: 250.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20.r),
+                    bottomRight: Radius.circular(20.r),
+                  ),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      'https://image.tmdb.org/t/p/w500/${movies.posterPath}',
+                    ),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                fit: BoxFit.cover,
-              ),
-            ),
+              );
+            },
+            options: CarouselOptions(height: 200.h),
           );
         } else if (state is PopularMoviesError) {
           return Text(
