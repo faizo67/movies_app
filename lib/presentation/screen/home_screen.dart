@@ -108,24 +108,28 @@ class HomeScreen extends StatelessWidget {
         if (state is PopularMoviesLoading) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is PopularMoviesLoad && state.movies.isNotEmpty) {
-          // final posterPath = state.movies.first.posterPath;
           return CarouselSlider.builder(
             itemCount: state.movies.length,
             itemBuilder: (context, index, realIndex) {
               final movies = state.movies[index];
-              return Container(
-                height: 250.h,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20.r),
-                    bottomRight: Radius.circular(20.r),
-                  ),
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      'https://image.tmdb.org/t/p/w500/${movies.posterPath}',
+              return Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Container(
+                  height: 250.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20.r),
+                      bottomRight: Radius.circular(20.r),
+                      topLeft: Radius.circular(10.r),
+                      topRight: Radius.circular(10.r),
                     ),
-                    fit: BoxFit.cover,
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        'https://image.tmdb.org/t/p/w500/${movies.posterPath}',
+                      ),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               );
