@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/injection_container.dart';
 import 'package:movies_app/presentation/bloc/movies/popular_movies/popular_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/movies/popular_movies/popular_movies_event.dart';
@@ -10,7 +11,12 @@ import 'package:movies_app/presentation/screen/home_screen.dart';
 
 void main() {
   init();
-  runApp(const MyApp());
+  runApp(
+    ScreenUtilInit(
+      designSize: Size(360, 690),
+      builder: (context, child) => MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

@@ -5,13 +5,11 @@ import 'package:movies_app/presentation/bloc/movies/popular_movies/popular_movie
 import 'package:movies_app/presentation/bloc/movies/trending_movies/trending_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/movies/trending_movies/trending_movies_state.dart';
 import 'package:movies_app/presentation/screen/movies_list.dart';
-import 'package:movies_app/presentation/widget/movie_card.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
-  final bckImage =
-      'https://w0.peakpx.com/wallpaper/732/875/HD-wallpaper-anonymous-black-cool-dark-guy-foux-hacker-scary-tech.jpg';
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +17,16 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: false,
         elevation: 0,
-        toolbarHeight: 50,
+        toolbarHeight: 50.h,
         backgroundColor: const Color.fromARGB(255, 4, 25, 65),
-        title: const Column(
+        title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
               child: Text(
                 'Movie App',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -36,8 +34,11 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-        actions: const [
-          Padding(padding: EdgeInsets.all(20), child: Icon(Icons.search)),
+        actions: [
+          Padding(
+            padding: EdgeInsets.all(20.r),
+            child: const Icon(Icons.search),
+          ),
         ],
       ),
       body: Container(
@@ -46,37 +47,34 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Default Image
               mainImageBuilder(),
-              const SizedBox(height: 10),
-              // Trending Movies
-              Center(
-                child: const Text(
-                  'Trending Movies',
+              SizedBox(height: 10.h),
 
+              // Trending Movies Header
+              Center(
+                child: Text(
+                  'Trending Movies',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              // BlocBuilder here
               trendingMoviesBuilder(),
+              SizedBox(height: 20.h),
 
-              const SizedBox(height: 20),
-              // Popular Movies
+              // Popular Movies Header
               Center(
-                child: const Text(
+                child: Text(
                   'Popular Movies',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              // Bloc Builder for Popular Movies
               popularMoviesBuilder(),
             ],
           ),
@@ -89,13 +87,16 @@ class HomeScreen extends StatelessWidget {
     return BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
       builder: (context, state) {
         if (state is PopularMoviesLoading) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         } else if (state is PopularMoviesLoad) {
           return MoviesList(movies: state.movies);
         } else if (state is PopularMoviesError) {
-          return Text(state.error);
+          return Text(
+            state.error,
+            style: TextStyle(color: Colors.red, fontSize: 14.sp),
+          );
         }
-        return Container();
+        return SizedBox(height: 50.h);
       },
     );
   }
@@ -104,16 +105,16 @@ class HomeScreen extends StatelessWidget {
     return BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
       builder: (context, state) {
         if (state is PopularMoviesLoading) {
-          return const CircularProgressIndicator();
-        } else if (state is PopularMoviesLoad) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is PopularMoviesLoad && state.movies.isNotEmpty) {
           final posterPath = state.movies.first.posterPath;
           return Container(
-            height: 250,
+            height: 250.h,
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
+                bottomLeft: Radius.circular(20.r),
+                bottomRight: Radius.circular(20.r),
               ),
               image: DecorationImage(
                 image: NetworkImage(
@@ -124,9 +125,12 @@ class HomeScreen extends StatelessWidget {
             ),
           );
         } else if (state is PopularMoviesError) {
-          return Text(state.error);
+          return Text(
+            state.error,
+            style: TextStyle(color: Colors.red, fontSize: 14.sp),
+          );
         }
-        return Container();
+        return SizedBox(height: 250.h);
       },
     );
   }
@@ -135,13 +139,16 @@ class HomeScreen extends StatelessWidget {
     return BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
       builder: (context, state) {
         if (state is TrendingMoviesLoading) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         } else if (state is TrendingMoviesLoad) {
           return MoviesList(movies: state.movies);
         } else if (state is TrendingMoviesError) {
-          return Text(state.faliure);
+          return Text(
+            state.faliure,
+            style: TextStyle(color: Colors.red, fontSize: 14.sp),
+          );
         }
-        return Container();
+        return SizedBox(height: 50.h);
       },
     );
   }

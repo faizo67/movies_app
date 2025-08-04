@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/domain/entity/movie_entity.dart';
 import 'package:movies_app/presentation/screen/detail_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MovieCard extends StatelessWidget {
   const MovieCard(this.movie, {super.key});
@@ -11,12 +12,11 @@ class MovieCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
-      margin: const EdgeInsets.all(10),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      margin: EdgeInsets.all(10.r),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: InkWell(
         onTap: () {
-          // TODO: Navigate to detail screen
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => DetailScreen(movie: movie)),
@@ -24,7 +24,7 @@ class MovieCard extends StatelessWidget {
         },
         child: Stack(
           children: [
-            // Background Movie Image
+            // Background Movie Image with Hero
             Hero(
               tag: movie.id,
               flightShuttleBuilder:
@@ -60,15 +60,15 @@ class MovieCard extends StatelessWidget {
                 image: NetworkImage(
                   'https://image.tmdb.org/t/p/w500/${movie.posterPath}',
                 ),
-                height: 250,
+                height: 250.h,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
 
-            // Gradient Overlay (top to bottom)
+            // Gradient Overlay
             Container(
-              height: 250,
+              height: 250.h,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
@@ -78,22 +78,22 @@ class MovieCard extends StatelessWidget {
               ),
             ),
 
-            // Movie Title at Bottom Center
+            // Movie Title
             Positioned(
-              bottom: 10,
-              left: 10,
-              right: 10,
+              bottom: 10.h,
+              left: 10.w,
+              right: 10.w,
               child: Text(
                 movie.title,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                   shadows: [
                     Shadow(
-                      blurRadius: 6,
+                      blurRadius: 6.r,
                       color: Colors.black87,
-                      offset: Offset(1, 1),
+                      offset: Offset(1.r, 1.r),
                     ),
                   ],
                 ),
